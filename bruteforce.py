@@ -1,5 +1,6 @@
 # Librairies
 import csv
+# Utiliser panda pour ouvrir les csv
 
 # Variables
 actions_and_profits = []
@@ -18,23 +19,9 @@ for action in actions_and_profits:
     action.append((int(action[2]) / 100) * int(action[1]))
 
 i = 0
-while budget >= 0:
-    budget -= actions_and_profits[i][1]
+while budget > 0:
+    budget -= int(actions_and_profits[i][1])
+    # if budget < 0:
+    #     budget += int(actions_and_profits[i][1])
     i += 1
-
-# 1 2... n buget > 500
-
-
-# def takeProfit(elem):
-#     return elem[3]
-
-# actions_and_profits.sort(key=takeProfit, reverse=True)
-# print(actions_and_profits)
-
-# print(actions)
-
-# i = 0
-# while budget > 500:
-#     budget - actions[i][1]
-#     profit = 
-#     print("Stop linting")
+    print(budget)
