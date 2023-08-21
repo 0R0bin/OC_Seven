@@ -18,7 +18,8 @@ for action in actions_and_profits:
     action.append((int(action[2]) / 100) * int(action[1]))
 
 
-def knapsack(list_actions, budget_input):
+def printknapSack(list_actions, budget_input):
+
     # Create all needed variables from list
     price = []
     profit = []
@@ -28,17 +29,34 @@ def knapsack(list_actions, budget_input):
     for action in list_actions:
         price.append(int(action[1]))
         profit.append(int(action[3]))
-    
-    # Knapsack problem from https://www.analyticsvidhya.com/blog/2022/05/knapsack-problem-in-python/#:~:text=What%20is%20Python's%20Knapsack%20Problem,a%20specific%20weight%20and%20value
-    K = [[0 for x in range(budget + 1)] for x in range(number_actions + 1)]
+
+
+    K = [[0 for w in range(budget + 1)] for i in range(number_actions + 1)]
+             
     for i in range(number_actions + 1):
         for w in range(budget + 1):
-            if i == 0  or  w == 0:
+            if i == 0 or w == 0:
                 K[i][w] = 0
-            elif price[i-1] <= w:
-                K[i][w] = max(profit[i-1] + K[i-1][w-price[i-1]], K[i-1][w])
+            elif price[i - 1] <= w:
+                K[i][w] = max(profit[i - 1] + K[i - 1][w - price[i - 1]], K[i - 1][w])
             else:
-                K[i][w] = K[i-1][w]
-    return K[number_actions][budget]
-    
-print(knapsack(actions_and_profits, 500))
+                K[i][w] = K[i - 1][w]
+ 
+    # stores the result of Knapsack
+    res = K[number_actions][budget]
+    print(res)
+     
+    w = budget
+    for i in range(number_actions, 0, -1):
+        if res <= 0:
+            break
+        if res == K[i - 1][w]:
+            continue
+        else:
+            print(price[i - 1])
+             
+            res = res - profit[i - 1]
+            w = w - price[i - 1]
+ 
+     
+printknapSack(actions_and_profits, 500)
