@@ -7,7 +7,7 @@ actions_and_profits = []
 budget = 500
 
 # Get all actions / price / profit into a matrix
-with open('actions.csv') as csv_file:
+with open('dataset_csv/actions.csv') as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
     for row in csv_reader:
         action = [row[0], row[1], row[2]]
