@@ -13,6 +13,7 @@ OU
 ```
 python3 optimized.py
 ```
+
 Sous Windows
 ```
 py bruteforce.py
