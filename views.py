@@ -60,7 +60,7 @@ def report(best_stock, actual_time, started_time):
     print('======================================================================')
     print(f'Algorithme Knapsack terminé en {actual_time - started_time} secondes')
     print('======================================================================\n')
-    print(f"\nMeilleur investissements possibles ({len(best_stock)} stock) :\n")
+    print(f"\nMeilleurs investissements possibles ({len(best_stock)} stock) :\n")
     print('(Col1) Nom |(Col2) Prix |(Col3) Profit')
 
     total_price = 0

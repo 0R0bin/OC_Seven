@@ -1,27 +1,58 @@
 # Librairies
 import csv
-# Utiliser panda pour ouvrir les csv
+import time
+import itertools as iter
 
 # Variables
-actions_and_profits = []
-budget = 500
+actions_and_profits = [] # Liste de toutes les actions
+BUDGET = 500
 
-# Get all actions / price / profit into a matrix
+print('Lecture du fichier CSV...\n')
+# Get all actions / price / profit / calc(profit), put into a matrix
 with open('dataset_csv/actions.csv') as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
     for row in csv_reader:
-        action = [row[0], row[1], row[2]]
+        action = [row[0], int(row[1]), int(row[2]), (int(row[1]) * int(row[2]) / 100)]
         actions_and_profits.append(action)
-        print(f'{row[0]} coût de {row[1]} avec un rendement de {row[2]}.\n')
+        print(f'{row[0]} coût de {row[1]} avec un rendement de {row[2]} et un profit de {action[3]}')
+    print('\n')
 
-# Determination of each profit, save it into our matrix
-for action in actions_and_profits:
-    action.append((int(action[2]) / 100) * int(action[1]))
 
-i = 0
-while budget > 0:
-    budget -= int(actions_and_profits[i][1])
-    # if budget < 0:
-    #     budget += int(actions_and_profits[i][1])
-    i += 1
-    print(budget)
+print('Début de l\'algorithme BruteForce\n')
+profit = 0
+best_stocks = []
+started_time = time.time()
+
+for i in range(len(actions_and_profits)):                           # Pour chaque action
+    combinations = iter.combinations(actions_and_profits, i+1)      # Renvoies toutes les combinaisons possible voir DOC Python
+    for combinaison in combinations:                                # Pour chaque possibilité retournée
+        # Reinit variable
+        total_cost = 0
+        total_profit = 0
+        for action in combinaison:
+            total_cost += int(action[1])                            # On ajoute le coût de toutes les actions dans la séléction de possibilité
+        if total_cost <= BUDGET:                                    # Si on ne dépasse pas le budget
+            for action in combinaison:
+                total_profit += int(action[3])                      # On ajoute le coût de toutes les actions dans la séléction de possibilité
+            if total_profit > profit:                               # Si le profit est supérieur au meilleur des profits
+                profit = total_profit                               # On sauvegarde le profit
+                best_stocks = combinaison                           # On sauvegarde la combinaison 
+
+
+
+print('=======================================================================')
+print(f'Algorithme BruteForce terminé en {time.time() - started_time} secondes')
+print('=======================================================================\n')
+print(f"\nMeilleurs investissements possibles ({len(best_stocks)} stock) :\n")
+print('(Col1) Nom |(Col2) Prix |(Col3) Profit')
+
+total_price = 0
+total_profit = 0
+
+for stock in best_stocks:
+    print(f'- {stock[0]} | {stock[1]} € | +{stock[2]} €')
+    total_price += stock[1]
+    total_profit += stock[3]
+
+print(f'\nCoût total : {total_price}€')
+print(f'Gains : {total_profit}€\n')
