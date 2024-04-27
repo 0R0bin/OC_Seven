@@ -8,25 +8,6 @@ import time
 # Variables
 DEFAULT_BUDGET = 500
 
-def main():
-    # budget = v.ask_budget(DEFAULT_BUDGET)
-    # filename = v.ask_dset()
-    # stock_list = c.process_csv(filename)
-    # v.csv_ok()
-    # start_time = time.time()
-    # knapsack_result = c.knapsack(stock_list, budget)
-    # v.report(knapsack_result, time.time(), start_time)
-    budget = ask_budget(DEFAULT_BUDGET)
-    filename = ask_dset()
-    stock_list = process_csv(filename)
-    csv_ok()
-    start_time = time.time()
-    knapsack_result = knapsack(stock_list, budget)
-    report(knapsack_result, time.time(), start_time)
-
-main()
-
-
 
 # VIEWS
 def ask_budget(default_budget):
@@ -131,8 +112,8 @@ def process_csv(filename):
 
         return all_info_stock_list
 
-# CONTROLLERS
 
+# CONTROLLERS
 def knapsack(stock_list, budget):
     """Algorithme knapsack
     Source : https://www.geeksforgeeks.org/python-program-for-dynamic-programming-set-10-0-1-knapsack-problem/
@@ -171,3 +152,22 @@ def knapsack(stock_list, budget):
         len_stock_list -= 1
 
     return best_stocks
+
+
+def main():
+    # budget = v.ask_budget(DEFAULT_BUDGET)
+    # filename = v.ask_dset()
+    # stock_list = c.process_csv(filename)
+    # v.csv_ok()
+    # start_time = time.time()
+    # knapsack_result = c.knapsack(stock_list, budget)
+    # v.report(knapsack_result, time.time(), start_time)
+    budget = ask_budget(DEFAULT_BUDGET)
+    filename = ask_dset()
+    stock_list = process_csv(filename)
+    csv_ok()
+    start_time = time.time()
+    knapsack_result = knapsack(stock_list, budget)
+    report(knapsack_result, time.time(), start_time)
+
+main()

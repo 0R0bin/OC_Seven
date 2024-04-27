@@ -67,7 +67,7 @@ def report(best_stock, actual_time, started_time):
     total_profit = 0
 
     for stock in best_stock:
-        print(f'- {stock[0]} | {stock[1]} € | +{stock[2]} €')
+        print(f'- {stock[0]} | {stock[1] / 100} € | +{stock[3]} €')
         total_price += stock[1]
         total_profit += stock[3]
 
