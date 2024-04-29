@@ -41,26 +41,38 @@ def knapsack(stock_list, budget):
         profit.append(stock[3])
 
     # Recherche knapsack
+    # Construction du tableau K avec des dimensions (len_stock_list + 1) x (budget + 1)
     K = [[0 for w in range(budget + 1)] for i in range(len_stock_list + 1)]
 
+    # Itération sur chaque ligne du tableau K (représentant chaque élément de la liste des stocks)
     for i in range(len_stock_list + 1):
+        # Itération sur chaque colonne du tableau K (représentant chaque poids de budget possible)
         for w in range(1, budget + 1):
+            # Si le prix de l'élément actuel (i-1) est inférieur ou égal au poids de budget actuel (w)
             if price[i-1] <= w:
-                K[i][w] = max(profit[i-1] + K[i-1][w-price[i-1]], K[i-1][w])
+                # Récupération valeur max entre :
+                K[i][w] = max(
+                    # Profit obtenu en incluant l'élément actuel
+                    profit[i-1] + K[i-1][w-price[i-1]],
+                    # Valeur maximale du profit en excluant l'élément actuel
+                    K[i-1][w])
             else:
+                # Si le prix de l'élément est supérieur au poids de budget actuel
                 K[i][w] = K[i-1][w]
 
     # Retrieve combination of shares from optimal profit
     best_stocks = []
 
+    # Boucle tant que le budget ou tous les stocks ne sont pas épuisés
     while budget >= 0 and len_stock_list >= 0:
 
-        if K[len_stock_list][budget] == \
-                K[len_stock_list-1][budget - price[len_stock_list-1]] + profit[len_stock_list-1]:
+        # On vérifie si le prix change en ajoutant l'élément actuel
+        if K[len_stock_list][budget] == K[len_stock_list-1][budget - price[len_stock_list-1]] + profit[len_stock_list-1]:
+            best_stocks.append(stock_list[len_stock_list-1]) # S'il change, on ajoute l'action
+            budget -= price[len_stock_list-1] # Et on décrémente le budget
 
-            best_stocks.append(stock_list[len_stock_list-1])
-            budget -= price[len_stock_list-1]
-
+        # Passer à l'action précédente pour l'itération suivante
+        # Car on déconstruit le tableau
         len_stock_list -= 1
 
     return best_stocks
